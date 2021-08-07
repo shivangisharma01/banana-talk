@@ -1,40 +1,31 @@
 var btnTranslate = document.querySelector("#btn-translate");
 var txtInput = document.querySelector("#txt-input");
+var outputDiv = document.querySelector("#output");
 
-console.log(txtInput)
-function clickEventHandler() {
-    console.log("Clicked!");
-console.log("input" , txtInput.value)
+var serverURL = "https://api.funtranslations.com/translate/minion.json";
+
+function getTranslationURL (text) {
+    return serverURL + "?"+ "text="+ text;
 }
+
+function errorHandler(error) {
+    console.log ("error occured", error);
+alert("something wrong with server! Try again after sometime.")
+}
+
+function clickEventHandler() {
+     var inputText =txtInput.value;  
+
+
+fetch(getTranslationURL(inputText)) 
+.then(responce => responce.json())
+.then(json => {
+    var translatedText = json.contents.translated;
+    outputDiv.innerText = translatedText;
+})
+ .catch(errorHandler)
+};
+
 btnTranslate.addEventListener("click", clickEventHandler)
 
 
-
- 
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// alert box and prompt code together ->
-
-// var userName= prompt ("give me your name");
-// var welcomeMessage= ("You Entered!" + userName);
-// alert (welcomeMessage);
